@@ -5,8 +5,8 @@ import emoji
 
 
 
-bot = telebot.TeleBot("1764092484:AAFH54usSJHnb36qu0xTIvbamqBVXEggnc0")
-telebot.apihelper.proxy = {'https':'http://10.57.10.34:3128'}
+bot = telebot.TeleBot("1764092484:AAFH54usSJHnb36qu0xTIvbamqBVXEggnc0")  # thay doi token di nha
+telebot.apihelper.proxy = {'https':'http://10.57.10.34:3128'} # co the khong can proxy 
 
 # ---------------------------------------------------------------------------
 def run_cmd(a):
