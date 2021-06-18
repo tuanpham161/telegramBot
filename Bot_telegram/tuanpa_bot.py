@@ -17,8 +17,8 @@ from colorama import Fore
 from colorama import Style
 
 bot = telebot.TeleBot("1764092484:AAFH54usSJHnb36qu0xTIvbamqBVXEggnc0")
-telebot.apihelper.proxy = {'https':'http://10.57.10.34:3128'}
-chat_id=990978363
+#telebot.apihelper.proxy = {'https':'http://10.57.10.34:3128'} # có proxy thì thêm 
+#chat_id=990978363 # cái này cần phải thêm id của người dùng tạo ra, đừng điền cái này
 # ---------------------------------------------------------------------------
 
 def console(a):
